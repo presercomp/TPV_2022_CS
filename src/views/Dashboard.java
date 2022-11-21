@@ -36,6 +36,7 @@ public class Dashboard extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         menuSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        menuUsuarios = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         menuAbrirTerminal = new javax.swing.JMenuItem();
 
@@ -74,6 +75,15 @@ public class Dashboard extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Mantenedores");
+
+        menuUsuarios.setText("Usuarios");
+        menuUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuUsuariosActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menuUsuarios);
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Ventas");
@@ -120,6 +130,12 @@ public class Dashboard extends javax.swing.JFrame {
         this.Desktop.add(tv);
         tv.setVisible(true);
     }//GEN-LAST:event_menuAbrirTerminalActionPerformed
+
+    private void menuUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuUsuariosActionPerformed
+        UsuariosAdmin ua = new UsuariosAdmin();
+        this.Desktop.add(ua);
+        ua.setVisible(true);
+    }//GEN-LAST:event_menuUsuariosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,5 +185,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuAbrirTerminal;
     private javax.swing.JMenuItem menuCerrarSesion;
     private javax.swing.JMenuItem menuSalir;
+    private javax.swing.JMenuItem menuUsuarios;
     // End of variables declaration//GEN-END:variables
 }
