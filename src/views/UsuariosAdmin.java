@@ -11,29 +11,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDesktopPane;
 
 public class UsuariosAdmin extends javax.swing.JInternalFrame {
 
-    public UsuariosAdmin() {
+    JDesktopPane panel;
+    public UsuariosAdmin(JDesktopPane p) {
         initComponents();
         //Completar los usuarios en la tabla:
-        while(this.tblDatos.getRowCount() > 0){
-            ((DefaultTableModel) this.tblDatos.getModel()).removeRow(0);    
-        }
-        Usuarios u = new Usuarios();
-        ResultSet rs = u.result();
-        try {
-            while(rs.next()){
-                Object[] row = new Object[2];
-                row[0] = rs.getInt(1);
-                row[1] = rs.getString(2);
-                ((DefaultTableModel) this.tblDatos.getModel()).addRow(row);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UsuariosAdmin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
+        this.panel = p;
+        this.listarUsuarios();        
     }
 
     /**
@@ -94,6 +81,11 @@ public class UsuariosAdmin extends javax.swing.JInternalFrame {
         });
 
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
         btnEditar.setEnabled(false);
@@ -156,6 +148,29 @@ public class UsuariosAdmin extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        UsuariosAgregar ua = new UsuariosAgregar(this);
+        this.panel.add(ua);
+        ua.setVisible(true);
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    public void listarUsuarios() {
+        while(this.tblDatos.getRowCount() > 0){
+            ((DefaultTableModel) this.tblDatos.getModel()).removeRow(0);    
+        }
+        Usuarios u = new Usuarios();
+        ResultSet rs = u.result();
+        try {
+            while(rs.next()){
+                Object[] row = new Object[2];
+                row[0] = rs.getInt(1);
+                row[1] = rs.getString(2);
+                ((DefaultTableModel) this.tblDatos.getModel()).addRow(row);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuariosAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

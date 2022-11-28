@@ -40,13 +40,12 @@ public class Usuarios {
     public boolean create(String apodo, String clave){
         String query = "INSERT INTO usuarios (clave, apodo) VALUES ('"+clave+"', '"+apodo+"')";
         Conexion c = new Conexion();
-        ResultSet r = c.ejecutar(query);        
-       try {           
-            return r.next();
-        } catch (SQLException ex) {
-            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+        int r = c.ejecutarInsercion(query);        
+        if(r == 1){
+            return true;
+        } else {
             return false;
-        }
+        }       
     }
     
     public ResultSet result(){
@@ -59,24 +58,20 @@ public class Usuarios {
         String query = "UPDATE usuarios SET clave = '"+clave+"', ";
         query+= " apodo ='"+apodo+"' WHERE id_usuario = "+id_usuario+");";
         Conexion c = new Conexion();
-        ResultSet r = c.ejecutar(query);        
-        try {           
-            return r.next();
-        } catch (SQLException ex) {
-            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+        if(c.ejecutarActualizacion(query) == 1){
+            return true;
+        } else {
             return false;
-        }
+        }  
     }
     
     public boolean delete(int id_usuario){
         String query = "DELETE FROM usuarios WHERE id_usuario = '"+id_usuario+"'";
         Conexion c = new Conexion();
-        ResultSet r = c.ejecutar(query);        
-        try {           
-            return r.next();
-        } catch (SQLException ex) {
-            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+        if(c.ejecutarActualizacion(query) == 1){
+            return true;
+        } else {
             return false;
-        }
+        }        
     }
 }

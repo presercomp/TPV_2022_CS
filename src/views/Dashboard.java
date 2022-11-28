@@ -132,7 +132,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_menuAbrirTerminalActionPerformed
 
     private void menuUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuUsuariosActionPerformed
-        UsuariosAdmin ua = new UsuariosAdmin();
+        UsuariosAdmin ua = new UsuariosAdmin(this.Desktop);
         this.Desktop.add(ua);
         ua.setVisible(true);
     }//GEN-LAST:event_menuUsuariosActionPerformed

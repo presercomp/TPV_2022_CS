@@ -46,4 +46,24 @@ public class Conexion {
         }
         return resultado;
     }
+    
+    public int ejecutarInsercion(String sql){
+        try{
+            return this._stmt.executeUpdate(sql);
+        } catch(SQLException ex){
+            System.out.println("Error al insertar: "+ex.getMessage());
+            return 0;
+        }
+        
+    }
+    
+    public int ejecutarActualizacion(String sql){
+        try{
+            return this._stmt.executeUpdate(sql);
+        } catch(SQLException ex){
+            System.out.println("Error al insertar: "+ex.getMessage());
+            return 0;
+        }
+        
+    }
 }
