@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 
 public class UsuariosAdmin extends javax.swing.JInternalFrame {
 
@@ -39,6 +40,7 @@ public class UsuariosAdmin extends javax.swing.JInternalFrame {
         btnEditar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnCerrar = new javax.swing.JButton();
+        txtIdSeleccionado = new javax.swing.JTextField();
 
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -55,7 +57,7 @@ public class UsuariosAdmin extends javax.swing.JInternalFrame {
                 java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -64,6 +66,11 @@ public class UsuariosAdmin extends javax.swing.JInternalFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDatosMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblDatos);
@@ -99,6 +106,8 @@ public class UsuariosAdmin extends javax.swing.JInternalFrame {
             }
         });
 
+        txtIdSeleccionado.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,6 +117,8 @@ public class UsuariosAdmin extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCerrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtIdSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -132,7 +143,8 @@ public class UsuariosAdmin extends javax.swing.JInternalFrame {
                     .addComponent(btnEliminar)
                     .addComponent(btnAgregar)
                     .addComponent(btnEditar)
-                    .addComponent(btnCerrar))
+                    .addComponent(btnCerrar)
+                    .addComponent(txtIdSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -140,7 +152,35 @@ public class UsuariosAdmin extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+        if(this.txtIdSeleccionado.getText().length() > 0){
+            int resp = JOptionPane.showConfirmDialog(this,
+                    "¿Está seguro/a de querer eliminar el registro seleccionado?",
+                    "Eliminar Usuario",
+                    JOptionPane.YES_NO_OPTION);
+            if(resp == JOptionPane.YES_OPTION){
+                Usuarios u = new Usuarios();
+                if(u.delete(Integer.parseInt(this.txtIdSeleccionado.getText()))){
+                    this.listarUsuarios();
+                    this.txtIdSeleccionado.setText("");
+                    this.btnEliminar.setEnabled(false);
+                    JOptionPane.showMessageDialog(this, 
+                    "Usuario Eliminado con Exito",
+                    "Eliminar Usuario",
+                    JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, 
+                    "Se ha producido un error. El usuario no fue eliminado",
+                    "Eliminar Usuario",
+                    JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            
+        } else {
+            JOptionPane.showMessageDialog(this, 
+                    "No hay datos seleccionados para eliminar",
+                    "Eliminar Usuario",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
@@ -153,6 +193,13 @@ public class UsuariosAdmin extends javax.swing.JInternalFrame {
         this.panel.add(ua);
         ua.setVisible(true);
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void tblDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDatosMouseClicked
+        int row = this.tblDatos.getSelectedRow();
+        String id = this.tblDatos.getValueAt(row, 0).toString();
+        this.txtIdSeleccionado.setText(id);
+        this.btnEliminar.setEnabled(true);
+    }//GEN-LAST:event_tblDatosMouseClicked
 
     public void listarUsuarios() {
         while(this.tblDatos.getRowCount() > 0){
@@ -180,5 +227,6 @@ public class UsuariosAdmin extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblDatos;
+    private javax.swing.JTextField txtIdSeleccionado;
     // End of variables declaration//GEN-END:variables
 }

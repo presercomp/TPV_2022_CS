@@ -56,7 +56,7 @@ public class Usuarios {
     
     public boolean update(int id_usuario, String apodo, String clave){
         String query = "UPDATE usuarios SET clave = '"+clave+"', ";
-        query+= " apodo ='"+apodo+"' WHERE id_usuario = "+id_usuario+");";
+        query+= " apodo ='"+apodo+"' WHERE id_usuarios = "+id_usuario+");";
         Conexion c = new Conexion();
         if(c.ejecutarActualizacion(query) == 1){
             return true;
@@ -66,7 +66,7 @@ public class Usuarios {
     }
     
     public boolean delete(int id_usuario){
-        String query = "DELETE FROM usuarios WHERE id_usuario = '"+id_usuario+"'";
+        String query = "DELETE FROM usuarios WHERE id_usuarios = '"+id_usuario+"'";
         Conexion c = new Conexion();
         if(c.ejecutarActualizacion(query) == 1){
             return true;
